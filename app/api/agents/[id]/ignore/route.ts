@@ -15,9 +15,12 @@ export async function GET(
     );
   }
 
+  // Merge common rules with specific rules
+  const mergedIgnore = [...agent.specificIgnore, '', ...ignoresData.common.rules];
+
   // Return as plain text for easy copying
-  const ignoreContent = agent.ignore.join('\n');
-  
+  const ignoreContent = mergedIgnore.join('\n');
+
   return new NextResponse(ignoreContent, {
     headers: {
       'Content-Type': 'text/plain',

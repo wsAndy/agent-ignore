@@ -15,5 +15,11 @@ export async function GET(
     );
   }
 
-  return NextResponse.json(agent);
+  // Merge common rules with specific rules
+  const agentWithMergedRules = {
+    ...agent,
+    ignore: [...agent.specificIgnore, '', ...ignoresData.common.rules],
+  };
+
+  return NextResponse.json(agentWithMergedRules);
 }
