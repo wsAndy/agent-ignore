@@ -66,24 +66,34 @@ export default function Home() {
 					<p className="text-xl text-gray-700 mb-6">Curated ignore file templates for AI coding assistants</p>
 				</header>
 
-				{/* Horizontal Scrolling Agent Cards */}
+				{/* Auto-scrolling Agent Cards */}
 				<div className="mb-8">
 					<h2 className="text-2xl font-semibold text-gray-800 mb-4">Quick Select Agent</h2>
-					<div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-gray-200">
-						{agents.map(agent => (
-							<button
-								key={agent.id}
-								onClick={() => setSelectedAgent(agent)}
-								className={`flex-shrink-0 w-48 p-4 rounded-xl border-2 transition-all transform hover:scale-105 hover:shadow-xl ${
-									selectedAgent?.id === agent.id
-										? 'border-purple-500 bg-gradient-to-br from-purple-50 to-pink-50 shadow-lg'
-										: 'border-gray-200 bg-white hover:border-purple-300'
-								}`}
-							>
-								<h3 className="font-bold text-lg text-gray-900 mb-1">{agent.name}</h3>
-								<p className="text-xs text-gray-600 line-clamp-2">{agent.description}</p>
-							</button>
-						))}
+					<div className="relative overflow-hidden">
+						<div className="flex gap-4 animate-scroll" style={{ width: 'max-content' }}>
+							{[...agents, ...agents].map((agent, index) => (
+								<button
+									key={`${agent.id}-${index}`}
+									onClick={() => setSelectedAgent(agent)}
+									onMouseEnter={(e) => {
+										const parent = e.currentTarget.parentElement;
+										if (parent) parent.style.animationPlayState = 'paused';
+									}}
+									onMouseLeave={(e) => {
+										const parent = e.currentTarget.parentElement;
+										if (parent) parent.style.animationPlayState = 'running';
+									}}
+									className={`flex-shrink-0 w-48 p-4 rounded-xl border-2 transition-all transform hover:scale-105 hover:shadow-xl ${
+										selectedAgent?.id === agent.id
+											? 'border-purple-500 bg-gradient-to-br from-purple-50 to-pink-50 shadow-lg'
+											: 'border-gray-200 bg-white hover:border-purple-300'
+									}`}
+								>
+									<h3 className="font-bold text-lg text-gray-900 mb-1">{agent.name}</h3>
+									<p className="text-xs text-gray-600 line-clamp-2">{agent.description}</p>
+								</button>
+							))}
+						</div>
 					</div>
 				</div>
 
@@ -100,51 +110,15 @@ export default function Home() {
 					</div>
 				</div>
 
-				<div className="grid md:grid-cols-2 gap-8">
-					{/* Agent List */}
-					<div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-purple-100">
-						<h2 className="text-2xl font-semibold mb-4 text-gray-800">Available Agents</h2>
-						<div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-gray-100">
-							{filteredAgents.map(agent => (
-								<button
-									key={agent.id}
-									onClick={() => setSelectedAgent(agent)}
-									className={`w-full text-left p-4 rounded-xl border-2 transition-all transform hover:scale-[1.02] ${
-										selectedAgent?.id === agent.id
-											? 'border-purple-500 bg-gradient-to-r from-purple-50 to-pink-50 shadow-md'
-											: 'border-gray-200 hover:border-purple-300 hover:bg-purple-50/30'
-									}`}
-								>
-									<div className="flex-1">
-										<h3 className="font-semibold text-lg text-gray-900">{agent.name}</h3>
-										<p className="text-sm text-gray-600">{agent.description}</p>
-										{agent.website && (
-											<a
-												href={agent.website}
-												target="_blank"
-												rel="noopener noreferrer"
-												className="text-xs text-blue-600 hover:underline mt-1 inline-block"
-												onClick={e => e.stopPropagation()}
-											>
-												{agent.website}
-											</a>
-										)}
-										<p className="text-xs text-purple-600 mt-1 font-mono">
-											{agent.ignoreFileName || `.${agent.id}ignore`}
-										</p>
-									</div>
-								</button>
-							))}
-							{filteredAgents.length === 0 && (
-								<div className="text-center py-12">
-									<p className="text-gray-500">No agents found matching "{searchTerm}"</p>
-								</div>
-							)}
+				{/* Ignore Content Display - Full Width */}
+				<div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-purple-100">
+					{filteredAgents.length === 0 ? (
+						<div className="text-center py-20">
+							<p className="text-xl text-gray-500">No agents found matching "{searchTerm}"</p>
+							<p className="text-sm text-gray-400 mt-2">Try a different search term</p>
 						</div>
-					</div>
-
-					{/* Ignore Content Display */}
-					<div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-purple-100">
+					) : (
+						<>
 						<div className="flex justify-between items-center mb-4">
 							<h2 className="text-2xl font-semibold text-gray-800">
 								{selectedAgent ? `${selectedAgent.name} Ignore` : 'Select an Agent'}
@@ -166,17 +140,33 @@ export default function Home() {
 								</div>
 							)}
 						</div>
-						{selectedAgent ? (
-							<pre className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-4 rounded-xl overflow-x-auto max-h-[600px] overflow-y-auto text-sm font-mono shadow-inner border border-gray-700">
-								{selectedAgent.ignore.join('\n')}
-							</pre>
-						) : (
-							<div className="text-center py-20">
-								<p className="text-xl text-gray-500">Select an agent to view its ignore template</p>
-								<p className="text-sm text-gray-400 mt-2">Choose from the list or quick select above</p>
-							</div>
-						)}
-					</div>
+							{selectedAgent ? (
+								<>
+									{selectedAgent.website && (
+										<div className="mb-4 flex items-center gap-2 text-sm">
+											<span className="text-gray-600">Official Website:</span>
+											<a
+												href={selectedAgent.website}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="text-blue-600 hover:underline"
+											>
+												{selectedAgent.website}
+											</a>
+										</div>
+									)}
+									<pre className="bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-6 rounded-xl overflow-x-auto max-h-[600px] overflow-y-auto text-sm font-mono shadow-inner border border-gray-700">
+										{selectedAgent.ignore.join('\n')}
+									</pre>
+								</>
+							) : (
+								<div className="text-center py-20">
+									<p className="text-xl text-gray-500">Select an agent to view its ignore template</p>
+									<p className="text-sm text-gray-400 mt-2">Choose from the quick select above or search</p>
+								</div>
+							)}
+						</>
+					)}
 				</div>
 
 				{/* API Documentation */}
