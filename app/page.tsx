@@ -56,8 +56,15 @@ export default function Home() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
-			<div className="container mx-auto px-4 py-8 max-w-7xl">
+		<div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
+			{/* Animated Background Elements */}
+			<div className="absolute inset-0 overflow-hidden pointer-events-none">
+				<div className="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+				<div className="absolute top-40 right-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+				<div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+			</div>
+			
+			<div className="container mx-auto px-4 py-8 max-w-7xl relative z-10">
 				{/* Header */}
 				<header className="text-center mb-8 py-4">
 					<h1 className="text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4 animate-gradient py-2">
