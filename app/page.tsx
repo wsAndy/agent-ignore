@@ -59,8 +59,8 @@ export default function Home() {
 		<div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
 			<div className="container mx-auto px-4 py-8 max-w-7xl">
 				{/* Header */}
-				<header className="text-center mb-8">
-					<h1 className="text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4 animate-gradient">
+				<header className="text-center mb-8 py-4">
+					<h1 className="text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4 animate-gradient py-2">
 						Agent Ignore
 					</h1>
 					<p className="text-xl text-gray-700 mb-6">Curated ignore file templates for AI coding assistants</p>
@@ -69,7 +69,7 @@ export default function Home() {
 				{/* Auto-scrolling Agent Cards */}
 				<div className="mb-8">
 					<h2 className="text-2xl font-semibold text-gray-800 mb-4">Quick Select Agent</h2>
-					<div className="relative overflow-hidden">
+					<div className="relative overflow-hidden py-2">
 						<div className="flex gap-4 animate-scroll" style={{ width: 'max-content' }}>
 							{[...agents, ...agents].map((agent, index) => (
 								<button
@@ -142,8 +142,8 @@ export default function Home() {
 
 				{/* Ignore Content Display - Full Width */}
 				<div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-purple-100">
-						<div className="flex justify-between items-center mb-4">
-							<h2 className="text-2xl font-semibold text-gray-800">
+						<div className="flex justify-between items-start mb-4">
+							<h2 className="text-2xl font-semibold text-gray-800 py-1">
 								{selectedAgent ? `${selectedAgent.name} Ignore` : 'Select an Agent'}
 							</h2>
 							{selectedAgent && (
