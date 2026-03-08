@@ -89,6 +89,12 @@ Contributions are welcome! To add a new agent or improve existing templates:
 - **Windsurf** - Windsurf AI coding assistant
 - **GitHub Copilot** - GitHub Copilot AI pair programmer
 - **Aider** - Aider AI pair programming tool
+- **OpenClaw** - OpenClaw AI coding assistant
+- **Continue** - Continue AI coding assistant for VS Code
+- **Tabnine** - Tabnine AI code completion
+- **Codeium** - Codeium AI code acceleration
+- **Supermaven** - Supermaven AI code completion
+- **Replit AI** - Replit Ghostwriter AI assistant
 
 ## 📄 License
 

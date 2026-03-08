@@ -7,6 +7,8 @@ interface Agent {
 	id: string
 	name: string
 	description: string
+	website?: string
+	ignoreFileName?: string
 	ignore: string[]
 }
 
@@ -113,9 +115,24 @@ export default function Home() {
 											: 'border-gray-200 hover:border-purple-300 hover:bg-purple-50/30'
 									}`}
 								>
-									<h3 className="font-semibold text-lg text-gray-900">{agent.name}</h3>
-									<p className="text-sm text-gray-600">{agent.description}</p>
-									<p className="text-xs text-purple-600 mt-1 font-mono">API: /api/agents/{agent.id}/ignore</p>
+									<div className="flex-1">
+										<h3 className="font-semibold text-lg text-gray-900">{agent.name}</h3>
+										<p className="text-sm text-gray-600">{agent.description}</p>
+										{agent.website && (
+											<a
+												href={agent.website}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="text-xs text-blue-600 hover:underline mt-1 inline-block"
+												onClick={e => e.stopPropagation()}
+											>
+												{agent.website}
+											</a>
+										)}
+										<p className="text-xs text-purple-600 mt-1 font-mono">
+											{agent.ignoreFileName || `.${agent.id}ignore`}
+										</p>
+									</div>
 								</button>
 							))}
 							{filteredAgents.length === 0 && (
