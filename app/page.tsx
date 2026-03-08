@@ -154,16 +154,16 @@ export default function Home() {
 								{selectedAgent ? `${selectedAgent.name} Ignore` : 'Select an Agent'}
 							</h2>
 							{selectedAgent && (
-								<div className="flex gap-2">
+								<div className="flex gap-3">
 									<button
 										onClick={handleCopy}
-										className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105 text-sm font-medium shadow-md"
+										className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium border border-gray-700"
 									>
-										{copied ? '✓ Copied!' : 'Copy'}
+										{copied ? '✓ Copied' : 'Copy'}
 									</button>
 									<button
 										onClick={handleDownload}
-										className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105 text-sm font-medium shadow-md"
+										className="px-4 py-2 bg-white text-gray-900 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium border border-gray-300"
 									>
 										Download
 									</button>
