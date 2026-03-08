@@ -56,6 +56,33 @@ export default function Home() {
 	}
 
 	return (
+		<>
+			{/* JSON-LD Structured Data for SEO */}
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify({
+						'@context': 'https://schema.org',
+						'@type': 'WebApplication',
+						name: 'Agent Ignore',
+						description: 'Curated ignore file templates for AI coding assistants',
+						url: process.env.NEXT_PUBLIC_SITE_URL || 'https://agentignore.vercel.app',
+						applicationCategory: 'DeveloperApplication',
+						operatingSystem: 'Any',
+						offers: {
+							'@type': 'Offer',
+							price: '0',
+							priceCurrency: 'USD',
+						},
+						featureList: [
+							'Ignore templates for OpenClaw, Claude Code, Gemini, Claude, Cursor, Cline, and more',
+							'API access for automated integration',
+							'Search and filter AI assistants',
+							'Copy and download ignore files',
+						],
+					}),
+				}}
+			/>
 		<div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
 			{/* Animated Background Elements */}
 			<div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -70,7 +97,7 @@ export default function Home() {
 					<h1 className="text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4 animate-gradient py-2">
 						Agent Ignore
 					</h1>
-					<p className="text-xl text-gray-700 mb-6">Curated ignore file templates for AI coding assistants</p>
+					<p className="text-xl text-gray-700 mb-6">Curated ignore file templates for AI coding assistants like OpenClaw, Claude Code, Gemini, and more</p>
 				</header>
 
 				{/* Auto-scrolling Agent Cards */}
@@ -244,5 +271,6 @@ export default function Home() {
 				</footer>
 			</div>
 		</div>
+		</>
 	)
 }
