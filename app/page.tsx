@@ -97,28 +97,51 @@ export default function Home() {
 					</div>
 				</div>
 
-				{/* Search Bar */}
-				<div className="mb-8">
+				{/* Search Bar with Dropdown */}
+				<div className="mb-8 relative">
 					<div className="relative">
 						<input
 							type="text"
 							placeholder="Search for an agent (e.g., claude, cursor, cline)..."
 							value={searchTerm}
 							onChange={e => setSearchTerm(e.target.value)}
+							onFocus={() => setSearchTerm(searchTerm || '')}
 							className="w-full px-6 py-4 text-lg border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition-all shadow-md"
 						/>
+						{searchTerm && filteredAgents.length > 0 && (
+							<div className="absolute z-10 w-full mt-2 bg-white rounded-xl shadow-2xl border-2 border-purple-200 max-h-96 overflow-y-auto">
+								{filteredAgents.map(agent => (
+									<button
+										key={agent.id}
+										onClick={() => {
+											setSelectedAgent(agent);
+											setSearchTerm('');
+										}}
+										className="w-full text-left p-4 hover:bg-purple-50 transition-colors border-b border-gray-100 last:border-b-0 first:rounded-t-xl last:rounded-b-xl"
+									>
+										<div className="flex items-start justify-between">
+											<div className="flex-1">
+												<h3 className="font-semibold text-lg text-gray-900">{agent.name}</h3>
+												<p className="text-sm text-gray-600 mt-1">{agent.description}</p>
+												{agent.ignoreFileName && (
+													<p className="text-xs text-purple-600 mt-1 font-mono">{agent.ignoreFileName}</p>
+												)}
+											</div>
+										</div>
+									</button>
+								))}
+							</div>
+						)}
+						{searchTerm && filteredAgents.length === 0 && (
+							<div className="absolute z-10 w-full mt-2 bg-white rounded-xl shadow-2xl border-2 border-purple-200 p-4">
+								<p className="text-gray-500 text-center">No agents found matching "{searchTerm}"</p>
+							</div>
+						)}
 					</div>
 				</div>
 
 				{/* Ignore Content Display - Full Width */}
 				<div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-purple-100">
-					{filteredAgents.length === 0 ? (
-						<div className="text-center py-20">
-							<p className="text-xl text-gray-500">No agents found matching "{searchTerm}"</p>
-							<p className="text-sm text-gray-400 mt-2">Try a different search term</p>
-						</div>
-					) : (
-						<>
 						<div className="flex justify-between items-center mb-4">
 							<h2 className="text-2xl font-semibold text-gray-800">
 								{selectedAgent ? `${selectedAgent.name} Ignore` : 'Select an Agent'}
@@ -165,8 +188,6 @@ export default function Home() {
 									<p className="text-sm text-gray-400 mt-2">Choose from the quick select above or search</p>
 								</div>
 							)}
-						</>
-					)}
 				</div>
 
 				{/* API Documentation */}
